@@ -28,6 +28,7 @@ import javacard.framework.Util;
  */
 
 public class HelloWorldSolution extends Applet {
+	
     private byte[] echoBytes; // echoBytes reference in NVM, OK :)
     private static final short LENGTH_ECHO_BYTES = 256; // Constant in NVM, OK :)
 
@@ -38,7 +39,7 @@ public class HelloWorldSolution extends Applet {
     	
     	// All objects are allocated at installation time, in the main constructor, OK :)
     	echoBytes = JCSystem.makeTransientByteArray(LENGTH_ECHO_BYTES, JCSystem.MEMORY_TYPE_TRANSIENT_DESELECT); // echoBytes content in RAM, OK :)
-    	
+
         register(); //The applet now has an AID known by the JCRE and the OS
     }
 

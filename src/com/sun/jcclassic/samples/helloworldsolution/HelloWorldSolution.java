@@ -80,6 +80,12 @@ public class HelloWorldSolution extends Applet {
                 (buffer[ISO7816.OFFSET_INS] == (byte) (0xA4))) {
             return;
         }
+	   
+	// Check the INCOMIN DATA LENGTH
+        // Assuming this command has incoming data
+        // Lc tells us the incoming apdu command length
+        short lc = (short) (buffer[ISO7816.OFFSET_LC] & 0x00FF);
+        if (lc != (short)5) ISOException.throwIt( ISO7816.SW_WRONG_LENGTH );
 
         short bytesRead = apdu.setIncomingAndReceive(); // Get the Max APDU DATA possible from the buffer : 
         // -> 7 bytes of data taken after the 5 bytes header (Considering we sent 7 bytes of Data in the test script)
@@ -104,6 +110,10 @@ public class HelloWorldSolution extends Applet {
 
         // echo header
         apdu.sendBytes((short) 0, (short) 5); // We send back the first 5 bytes of the buffer : the header.
+	   
+	// Could have used directly 
+	// apdu.setOutgoingAndSend((short) 0, (short)  5);
+	// instead of the lines 108 109 and 112
         
 	// If we did not copy the data into a separated array, we could send everything back using the computed length : apdu.sendBytes((short) 0, (short) (echoOffset + 5));
         // echo data
